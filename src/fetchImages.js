@@ -8,5 +8,3 @@ export default async function fetchImages(value, page) {
     .get(`${BASE_URL}${usersSaerch}`)
     .then(response => response.data);
 }
-
-fetchImages();

@@ -15,7 +15,9 @@ let currentPage = 1;
 let totalHits = 0;
 let searchInfo = '';
 
-var lightbox = new SimpleLightbox('.gallery a');
+let lightbox = new SimpleLightbox('.photo-card a', {
+  captionDelay: 250,
+});
 
 async function onSubmit(evt) {
   evt.preventDefault();
@@ -34,6 +36,7 @@ async function onSubmit(evt) {
       Notify.success(`Hooray! We found ${response.totalHits} images.`);
       gallery.innerHTML = ``;
       renderCard(response.hits);
+      lightbox.refresh();
     }
     if (response.totalHits === 0) {
       Notify.failure(
@@ -60,9 +63,9 @@ function renderCard(arr) {
       }) => {
         return `
         <div class="photo-card">
-        <a href="${webformatURL}">
+        <a href="${largeImageURL}">
         <img class="gallery__image" 
-        src="${largeImageURL}" 
+        src="${webformatURL}" 
         alt="${tags}" 
         loading="lazy"/>
         </a>
@@ -87,10 +90,9 @@ function renderCard(arr) {
       </div>
 `;
       }
-    ).join('');
+    )
+    .join('');
   gallery.insertAdjacentHTML('beforeend', markup);
 }
 
-function nextPage(){
-
-}
+function nextPage() {}

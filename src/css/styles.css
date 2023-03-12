@@ -27,7 +27,7 @@ body {
     rgba(60, 142, 130, 1) 50%,
     rgba(54, 93, 93, 1) 100%
   );
-  box-shadow: 0px 6px 26px 0px rgba(37,82,62,0.71);;
+  box-shadow: 0px 6px 26px 0px rgba(37, 82, 62, 0.71);
 
   width: 100%;
   font: inherit;
@@ -43,7 +43,7 @@ body {
   outline: none;
   border: none;
   padding: 0 7px;
-  box-shadow: inset 0px 6px 26px 0px rgba(37,82,62,0.71);
+  box-shadow: inset 0px 6px 26px 0px rgba(37, 82, 62, 0.71);
 }
 .submit-btn {
   height: 40px;
@@ -83,8 +83,7 @@ span {
   position: relative;
   border-radius: 4px;
   background-color: #365d5d;
-  box-shadow: 0px 0px 6px 2px #0000004d, 0 1px 1px #00000024,
-    4px 7px 1px -1px #0000001f;
+  box-shadow: 8px 17px 29px -14px rgba(37, 82, 62, 0.7);
 }
 .gallery__image:hover {
   transform: scale(1.05);
@@ -98,6 +97,7 @@ span {
 .info {
   display: flex;
   text-align: center;
+  gap: 10px;
 }
 .next-page {
   margin-top: 50px;

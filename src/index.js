@@ -4,12 +4,25 @@ import fetchImages from './fetchImages';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+
 const searchForm = document.querySelector('.search-form');
 const gallery = document.querySelector('.gallery');
-const loadMoreBtn = document.querySelector('.next-page');
+const sentinel = document.querySelector('.wrapper');
+const observer = new IntersectionObserver(
+  function (entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && searchInfo !== '') {
+        loadMore();
+      }
+    });
+  },
+  {
+    rootMargin: '200px',
+  }
+);
+observer.observe(sentinel);
 
 searchForm.addEventListener('submit', onSubmit);
-loadMoreBtn.addEventListener('click', nextPage);
 
 let currentPage = 1;
 let totalHits = 0;
@@ -21,28 +34,28 @@ let lightbox = new SimpleLightbox('.photo-card a', {
 
 async function onSubmit(evt) {
   evt.preventDefault();
-  searchInfo = evt.currentTarget.elements.searchQuery.value;
+  searchInfo = evt.currentTarget.searchQuery.value;
   currentPage = 1;
 
   if (searchInfo === '') {
     return;
   }
 
-  const response = await fetchImages(searchInfo, currentPage);
-  totalHits = response.hits.length;
-
   try {
+    const response = await fetchImages(searchInfo, currentPage);
+    totalHits = response.hits.length;
+
     if (response.totalHits > 0) {
-      Notify.success(`Hooray! We found ${response.totalHits} images.`);
       gallery.innerHTML = ``;
+      Notify.success(`Hooray! We found ${response.totalHits} images.`);
       renderCard(response.hits);
       lightbox.refresh();
     }
     if (response.totalHits === 0) {
+      gallery.innerHTML = ``;
       Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
-      gallery.innerHTML = ``;
     }
   } catch (error) {
     console.log(error);
@@ -95,4 +108,10 @@ function renderCard(arr) {
   gallery.insertAdjacentHTML('beforeend', markup);
 }
 
-function nextPage() {}
+async function loadMore() {
+  currentPage += 1;
+  const response = await fetchImages(searchInfo, currentPage);
+  renderCard(response.hits);
+  lightbox.refresh();
+  totalHits += response.hits.length;
+}

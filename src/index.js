@@ -35,14 +35,14 @@ async function onSubmit(evt) {
   evt.preventDefault();
   searchInfo = evt.currentTarget.searchQuery.value;
   currentPage = 1;
-
+  window.scrollTo(0, -500);
   if (searchInfo === '') {
     return;
   }
 
-  const response = await fetchImages(searchInfo, currentPage);
-  totalHits = response.hits.length;
   try {
+    const response = await fetchImages(searchInfo, currentPage);
+    totalHits = response.hits.length;
     if (response.totalHits > 0) {
       gallery.innerHTML = ``;
       Notify.success(`Hooray! We found ${response.totalHits} images.`);
@@ -107,9 +107,9 @@ function renderCard(arr) {
 }
 
 async function loadMore() {
-  currentPage += 1;
-  const response = await fetchImages(searchInfo, currentPage);
   try {
+    currentPage += 1;
+    const response = await fetchImages(searchInfo, currentPage);
     renderCard(response.hits);
     lightbox.refresh();
     totalHits += response.hits.length;

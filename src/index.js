@@ -1,9 +1,8 @@
-import './css/styles.css';
+import './sass/index.scss';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import fetchImages from './fetchImages';
+import fetchImages from './js/fetchImages';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-
 
 const searchForm = document.querySelector('.search-form');
 const gallery = document.querySelector('.gallery');

@@ -40,10 +40,9 @@ async function onSubmit(evt) {
     return;
   }
 
+  const response = await fetchImages(searchInfo, currentPage);
+  totalHits = response.hits.length;
   try {
-    const response = await fetchImages(searchInfo, currentPage);
-    totalHits = response.hits.length;
-
     if (response.totalHits > 0) {
       gallery.innerHTML = ``;
       Notify.success(`Hooray! We found ${response.totalHits} images.`);
@@ -110,7 +109,11 @@ function renderCard(arr) {
 async function loadMore() {
   currentPage += 1;
   const response = await fetchImages(searchInfo, currentPage);
-  renderCard(response.hits);
-  lightbox.refresh();
-  totalHits += response.hits.length;
+  try {
+    renderCard(response.hits);
+    lightbox.refresh();
+    totalHits += response.hits.length;
+  } catch (error) {
+    console.log(error);
+  }
 }
